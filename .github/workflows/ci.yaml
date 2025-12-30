@@ -1,0 +1,30 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-versions: '3.11'
+      
+    - name: Install dependencies
+      run: |
+        pip install -r requirments.txt
+    - name: Run tests
+    run: |
+      pytest       
+     
+    - name: Deploy
+      if: success()
+      run: echo "Deploy completed"
